@@ -1,16 +1,17 @@
 import time
 import requests
 
-# Telegram Config
+# 🔹 Telegram Config
 TELEGRAM_TOKEN = "8782377003:AAGyLcEfX3QXyZdbbFS8HclavoJ0I91S4n4"
 CHAT_ID = "5586952772"  # Your Telegram ID
 
-# Function to send Telegram message
+# 🔹 Function to send Telegram message
 def send_telegram(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": CHAT_ID, "text": message}
     requests.post(url, data=payload)
 
+# 🔹 Bot Started
 print("🚀 Trading Bot Started")
 send_telegram("🚀 Trading Bot Started")  # Telegram notification
 
