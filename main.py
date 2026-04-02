@@ -8,7 +8,10 @@ CHAT_ID = "5586952772"  # Your Telegram ID
 # 🔹 Function to send Telegram message
 def send_telegram(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    payload = {"chat_id": CHAT_ID, "text": message}
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": message
+    }
     requests.post(url, data=payload)
 
 # 🔹 Bot Started
