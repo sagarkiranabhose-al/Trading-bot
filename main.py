@@ -1,32 +1,41 @@
-import time
-import requests
+import telebot
+import random
 
-# 🔹 Telegram Config
-TELEGRAM_TOKEN = "8782377003:AAGyLcEfX3QXyZdbbFS8HclavoJ0I91S4n4"
-CHAT_ID = "5586952772"  # Your Telegram ID
+TOKEN = "8782377003:AAGyLcEfX3QXyZdbbFS8HclavoJ0I91S4n4"
 
-# 🔹 Function to send Telegram message
-def send_telegram(message):
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": CHAT_ID,
-        "text": message
-    }
-    requests.post(url, data=payload)
+bot = telebot.TeleBot(TOKEN)
 
-# 🔹 Bot Started
-print("🚀 Trading Bot Started")
-send_telegram("🚀 Trading Bot Started")  # Telegram notification
+# ===== START COMMAND =====
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, 
+    "🚀 Welcome to SAGAR AI BOT\n\nCommands:\nNIFTY - Get Signal\nHELP - Help Menu")
 
-while True:
-    # Dummy price (replace with real API later)
-    price = 100
+# ===== HELP COMMAND =====
+@bot.message_handler(func=lambda message: message.text.lower() == "help")
+def help_msg(message):
+    bot.reply_to(message,
+    "📊 Commands:\n\nNIFTY - Live Signal\nHELLO - Test Bot")
 
-    if price > 90:
-        signal = "BUY Signal ✅"
-    else:
-        signal = "SELL Signal ❌"
+# ===== NIFTY SIGNAL =====
+@bot.message_handler(func=lambda message: message.text.lower() == "nifty")
+def nifty_signal(message):
+    signals = [
+        "📈 BUY NIFTY 22800 CE\nSL: 22750\nTARGET: 22950",
+        "📉 BUY NIFTY 22700 PE\nSL: 22780\nTARGET: 22600",
+        "⚠️ SIDEWAYS MARKET - NO TRADE"
+    ]
+    bot.reply_to(message, random.choice(signals))
 
-    print(signal)
-    send_telegram(signal)  # Send signal to Telegram
-    time.sleep(10)  # Delay between signals
+# ===== HELLO TEST =====
+@bot.message_handler(func=lambda message: message.text.lower() == "hello")
+def hello(message):
+    bot.reply_to(message, "Hello Boss 😎 Bot Working!")
+
+# ===== DEFAULT REPLY =====
+@bot.message_handler(func=lambda message: True)
+def echo(message):
+    bot.reply_to(message, "Type HELP for commands")
+
+print("Bot Started...")
+bot.polling()
