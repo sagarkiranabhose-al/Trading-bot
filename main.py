@@ -35,7 +35,7 @@ def hello(message):
 # ===== DEFAULT REPLY =====
 @bot.message_handler(func=lambda message: True)
 def echo(message):
-    bot.reply_to(message, "Type HELP for commands")
+    bot.reply_to(message,"Type HELP for commands")
 
 print("Bot Started...")
 bot.polling()
